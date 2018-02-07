@@ -45,17 +45,32 @@ func BenchmarkAppend(b *testing.B) {
 }
 
 func BenchmarkCopy(b *testing.B) {
-	bs := make([]byte, 0)
+	bs := make([]byte, b.N)
+    bl := 0
 
-	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
-		bs = append(bs, []byte("x")...)
-	}
-	b.StopTimer()
+    b.ResetTimer()
+    for n := 0; n < b.N; n++ {
+        bl += copy(bs[bl:], "x")
+    }
+    b.StopTimer()
 
 	if s := strings.Repeat("x", b.N); string(bs) != s {
 		b.Errorf("unexpected result; got=%s, want=%s", string(bs), s)
 	}
 }
 
+// Go 1.10
+// func BenchmarkStringBuilder(b *testing.B) {
+//     var strBuilder strings.Builder
+
+//     b.ResetTimer()
+//     for n := 0; n < b.N; n++ {
+//         strBuilder.WriteString("x")
+//     }
+//     b.StopTimer()
+
+//     if s := strings.Repeat("x", b.N); strBuilder.String() != s {
+//         b.Errorf("unexpected result; got=%s, want=%s", strBuilder.String(), s)
+//     }
+// }
 //go test -bench=. -benchtime=100ms -v
