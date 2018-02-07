@@ -46,13 +46,13 @@ func BenchmarkAppend(b *testing.B) {
 
 func BenchmarkCopy(b *testing.B) {
 	bs := make([]byte, b.N)
-    bl := 0
+	bl := 0
 
-    b.ResetTimer()
-    for n := 0; n < b.N; n++ {
-        bl += copy(bs[bl:], "x")
-    }
-    b.StopTimer()
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		bl += copy(bs[bl:], "x")
+	}
+	b.StopTimer()
 
 	if s := strings.Repeat("x", b.N); string(bs) != s {
 		b.Errorf("unexpected result; got=%s, want=%s", string(bs), s)
