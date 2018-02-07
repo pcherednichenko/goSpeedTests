@@ -58,4 +58,4 @@ func BenchmarkCopy(b *testing.B) {
 	}
 }
 
-//go test -bench=. -benchtime=100ms -v ./tmp/...
+//go test -bench=. -benchtime=100ms -v
